@@ -26,27 +26,71 @@ public class TcpSocketPlugin: CAPPlugin {
             call.reject(error.localizedDescription)
         }
     }
+
     
     @objc func send(_ call: CAPPluginCall) {
+        // 获取客户端索引
         let clientIndex = call.getInt("client", -1)
-        if (clientIndex == -1)    {
-            call.reject("No client specified")
+        guard clientIndex >= 0, clientIndex < clients.count else {
+            call.reject("No client specified or client index out of range")
+            return
         }
         let client = clients[clientIndex]
-        let data = call.getString("data", "")
-        
-        var byteArray = [Byte]()
-        for char in data.utf8{
-            byteArray += [char]
+
+        // 获取数据类型和数据
+        let dataType = call.getString("encoding", "utf8")
+        guard let dataString = call.getString("data") else {
+            call.reject("No data provided")
+            return
         }
         
+        print("dataType", dataType)
+        print("dataString", dataString)
+        
+        // 存储转换后的字节数组
+        var byteArray = [UInt8]()
+        
+        // 根据数据类型处理数据
+        switch dataType {
+        case "utf8":
+            byteArray = dataString.utf8.map { $0 }
+        case "base64":
+            if let decodedData = Data(base64Encoded: dataString) {
+                byteArray = [UInt8](decodedData)
+            } else {
+                call.reject("Invalid Base64 string")
+                return
+            }
+        case "hex":
+            let hexString = dataString
+            if hexString.count % 2 != 0 {
+                call.reject("Invalid hex string length")
+                return
+            }
+            byteArray = stride(from: 0, to: hexString.count, by: 2).compactMap { index in
+                let start = hexString.index(hexString.startIndex, offsetBy: index)
+                let end = hexString.index(start, offsetBy: 2)
+                let byteString = String(hexString[start..<end])
+                return UInt8(byteString, radix: 16)
+            }
+            if byteArray.count * 2 != hexString.count {
+                call.reject("Invalid hex string format")
+                return
+            }
+        default:
+            call.reject("Unsupported data type")
+            return
+        }
+        
+        // 发送数据并处理结果
         switch client.send(data: byteArray) {
-          case .success:
+        case .success:
             call.resolve()
-          case .failure(let error):
+        case .failure(let error):
             call.reject(error.localizedDescription)
         }
     }
+    
     
     @objc func read(_ call: CAPPluginCall) {
         let clientIndex = call.getInt("client", -1)

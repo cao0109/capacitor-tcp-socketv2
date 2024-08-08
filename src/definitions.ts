@@ -17,7 +17,7 @@ export interface ConnectResult {
 
 export interface SendOptions {
   client: number;
-  data: string | Uint8Array | ArrayBuffer | ArrayBufferView;
+  data: string;
   encoding?: string;
 }
 
