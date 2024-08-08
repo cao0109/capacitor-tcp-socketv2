@@ -1,6 +1,6 @@
 {
-  "name": "capacitor-tcp-socket",
-  "version": "6.0.0",
+  "name": "capacitor-tcp-socket2",
+  "version": "3.2.11",
   "description": "A TCP Socket Plugin for capacitor",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -11,16 +11,16 @@
     "android/build.gradle",
     "dist/",
     "ios/Plugin/",
-    "CapacitorTcpSocket.podspec"
+    "CapacitorTcpSocket2.podspec"
   ],
-  "author": "Svend <svend.jin@gmail.com>",
+  "author": "caoh2",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gee1k/capacitor-tcp-socket.git"
+    "url": "git+https://github.com/cao0109/capacitor-tcp-socketv2.git"
   },
   "bugs": {
-    "url": "https://github.com/gee1k/capacitor-tcp-socket/issues"
+    "url": "https://github.com/cao0109/capacitor-tcp-socketv2/issues"
   },
   "keywords": [
     "capacitor",

@@ -4,7 +4,7 @@ export default {
     {
       file: 'dist/plugin.js',
       format: 'iife',
-      name: 'capacitorTcpSocket',
+      name: 'capacitorTcpSocket2',
       globals: {
         '@capacitor/core': 'capacitorExports',
       },
