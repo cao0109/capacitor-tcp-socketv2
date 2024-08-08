@@ -1,6 +1,6 @@
 {
   "name": "capacitor-tcp-socket2",
-  "version": "3.2.14",
+  "version": "3.2.15",
   "description": "A TCP Socket Plugin for capacitor",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
